@@ -1,10 +1,3 @@
-/*Name : TweeCool
- *version: 1.9 
- *Description: Get the latest tweets from twitter.
- *Website: www.tweecool.com
- *Licence: No licence, feel free to do whatever you want.
- *Author: TweeCool
- */
 ! function(t) {
     t.fn.extend({
         tweecool: function(e) {
