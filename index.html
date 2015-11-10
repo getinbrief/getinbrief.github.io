@@ -1,9 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GetInBrief</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>InBrief | Get 10 news in brief</title>
+<meta name="description" content="Get 10 news in brief within 60 words.">
+<meta name="keywords" content="get in brief, get in brief app"/>
+<meta name="theme-color" content="#fff">
+<script src="./js/jquery.js"></script>
+<script src="./js/tweecool.js"></script>
+<link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
+<link rel="stylesheet" href="./css/kathamo.min.css"/>
+<style>
+
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), local('ProductSans-Regular'), url("./font/Product-Sans.woff") format("woff");
+}
+
+* {
+  -webkit-user-select: none;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+}
+
+body {
+  font-family: 'Product Sans';
+  background-color: #eee;
+}
+
+a,
+a:active,
+a:hover {
+  color: #2196f3;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0,0,0, 0.0);
+  outline: none;
+}
+
+header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+ul.toolbar {
+  padding-top: 0;
+  padding-right: 8px;
+  padding-bottom: 0;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.toolbar li {
+  float: left;
+  font-size: 1.618rem;
+  line-height: 4rem;
+}
+
+.twitter-widget ul {
+  margin: 0;
+  padding: 0; 
+}
+
+.twitter-widget ul > li {
+  padding-top: 21px;
+  padding-bottom: 13px;
+  padding-left: 0;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.twitter-widget ul > li:first-child {
+  margin-top: 4.5rem;
+}
+
+.twitter-widget li .tweets_txt {
+  padding: 0 21px;
+  font-size: 1em;
+}
+
+.twitter-widget li .tweets_txt span {
+  display: block;
+  font-size: .89em;
+  color: #95a5a6;
+}
+
+.twitter-widget li .action-box {
+  margin-top: 4px;
+}
+
+.twitter-widget li .action-box li:first-child{
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.twitter-widget li .action-box li {
+  float:left;
+  clear: none;
+  margin-left: 34px;
+}
+
+.twitter-widget li .action-box ul > li {
+  padding-top: 13px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border: none;
+}
+
+.twitter-widget li .action-box span {
+  display:inline;
+  margin-left: 2px;
+}
+
+.color {
+  color: #2196f3;
+}
+
+.logo {
+  width: 1em;
+  height: 1em;
+  margin-right: 5px;
+}
+
+.logo path {
+  fill: #000;
+}
+
+.toolbar-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.svg-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #111;
+}
+
+
+</style>
 </head>
+
 <body>
-<h1>GetInBrief</h1>
+
+<div class="loading" id="load_screen">
+<div class="loading-inner">
+<div class="vertical-center">
+<div class="loader">Loading</div>
+</div>
+</div>
+</div>
+
+<header class="clearfix">
+<div class="container clearfix">
+<ul class="clearfix toolbar col-lg-offset-3 col-lg-6 col-md-12 col-sm-12">
+<li class="text-center"><svg class="logo" viewBox="0 0 20 20"><path fill="none" d="M5.029,1.734h10.935c0.317,0,0.575-0.257,0.575-0.575s-0.258-0.576-0.575-0.576H5.029
+								c-0.318,0-0.576,0.258-0.576,0.576S4.711,1.734,5.029,1.734z M1,5.188V19h18.417V5.188H1z M18.266,17.849H2.151V6.338h16.115
+								V17.849z M2.727,4.036H17.69c0.317,0,0.575-0.257,0.575-0.576c0-0.318-0.258-0.575-0.575-0.575H2.727
+								c-0.318,0-0.576,0.257-0.576,0.575C2.151,3.779,2.409,4.036,2.727,4.036z"></path></svg>In<span class="color">Brief</span></li>
+<div class="pull-right">
+<li><a href=""><svg class="toolbar-icon" viewBox="0 0 20 20"><path d="M12.319,5.792L8.836,2.328C8.589,2.08,8.269,2.295,8.269,2.573v1.534C8.115,4.091,7.937,4.084,7.783,4.084c-2.592,0-4.7,2.097-4.7,4.676c0,1.749,0.968,3.337,2.528,4.146c0.352,0.194,0.651-0.257,0.424-0.529c-0.415-0.492-0.643-1.118-0.643-1.762c0-1.514,1.261-2.747,2.787-2.747c0.029,0,0.06,0,0.09,0.002v1.632c0,0.335,0.378,0.435,0.568,0.245l3.483-3.464C12.455,6.147,12.455,5.928,12.319,5.792 M8.938,8.67V7.554c0-0.411-0.528-0.377-0.781-0.377c-1.906,0-3.457,1.542-3.457,3.438c0,0.271,0.033,0.542,0.097,0.805C4.149,10.7,3.775,9.762,3.775,8.76c0-2.197,1.798-3.985,4.008-3.985c0.251,0,0.501,0.023,0.744,0.069c0.212,0.039,0.412-0.124,0.412-0.34v-1.1l2.646,2.633L8.938,8.67z M14.389,7.107c-0.34-0.18-0.662,0.244-0.424,0.529c0.416,0.493,0.644,1.118,0.644,1.762c0,1.515-1.272,2.747-2.798,2.747c-0.029,0-0.061,0-0.089-0.002v-1.631c0-0.354-0.382-0.419-0.558-0.246l-3.482,3.465c-0.136,0.136-0.136,0.355,0,0.49l3.482,3.465c0.189,0.186,0.568,0.096,0.568-0.245v-1.533c0.153,0.016,0.331,0.022,0.484,0.022c2.592,0,4.7-2.098,4.7-4.677C16.917,9.506,15.948,7.917,14.389,7.107 M12.217,15.238c-0.251,0-0.501-0.022-0.743-0.069c-0.212-0.039-0.411,0.125-0.411,0.341v1.101l-2.646-2.634l2.646-2.633v1.116c0,0.174,0.126,0.318,0.295,0.343c0.158,0.024,0.318,0.034,0.486,0.034c1.905,0,3.456-1.542,3.456-3.438c0-0.271-0.032-0.541-0.097-0.804c0.648,0.719,1.022,1.659,1.022,2.66C16.226,13.451,14.428,15.238,12.217,15.238"></path></svg></a></li>
+</div>
+</ul>
+</div>
+</header>
+
+<main class="clearfix">
+<div class="container clearfix">
+<div class="col-lg-offset-3 col-lg-6 col-md-12 col-sm-12">
+<div class="twitter-widget">
+<div id="tweecool"></div>
+</div>
+<p class="text-center"><small>Copyright www.getinbrief.xyz. All rights reserved.</small></p>
+</div>
+</div>
+</main>
+
+<script>
+$(document).ready(function() {
+$('#tweecool').tweecool({
+username : 'getinbrief', 
+limit : 10,
+profile_image: false,
+show_actions: true,
+action_reply_icon: '<svg class="svg-icon" viewBox="0 0 20 20"><path d="M3.24,7.51c-0.146,0.142-0.146,0.381,0,0.523l5.199,5.193c0.234,0.238,0.633,0.064,0.633-0.262v-2.634c0.105-0.007,0.212-0.011,0.321-0.011c2.373,0,4.302,1.91,4.302,4.258c0,0.957-0.33,1.809-1.008,2.602c-0.259,0.307,0.084,0.762,0.451,0.572c2.336-1.195,3.73-3.408,3.73-5.924c0-3.741-3.103-6.783-6.916-6.783c-0.307,0-0.615,0.028-0.881,0.063V2.575c0-0.327-0.398-0.5-0.633-0.261L3.24,7.51 M4.027,7.771l4.301-4.3v2.073c0,0.232,0.21,0.409,0.441,0.366c0.298-0.056,0.746-0.123,1.184-0.123c3.402,0,6.172,2.709,6.172,6.041c0,1.695-0.718,3.24-1.979,4.352c0.193-0.51,0.293-1.045,0.293-1.602c0-2.76-2.266-5-5.046-5c-0.256,0-0.528,0.018-0.747,0.05C8.465,9.653,8.328,9.81,8.328,9.995v2.074L4.027,7.771z"></path>',
+action_retweet_icon: '<svg class="svg-icon" viewBox="0 0 20 20"><path d="M14.68,12.621c-0.9,0-1.702,0.43-2.216,1.09l-4.549-2.637c0.284-0.691,0.284-1.457,0-2.146l4.549-2.638c0.514,0.661,1.315,1.09,2.216,1.09c1.549,0,2.809-1.26,2.809-2.808c0-1.548-1.26-2.809-2.809-2.809c-1.548,0-2.808,1.26-2.808,2.809c0,0.38,0.076,0.741,0.214,1.073l-4.55,2.638c-0.515-0.661-1.316-1.09-2.217-1.09c-1.548,0-2.808,1.26-2.808,2.809s1.26,2.808,2.808,2.808c0.9,0,1.702-0.43,2.217-1.09l4.55,2.637c-0.138,0.332-0.214,0.693-0.214,1.074c0,1.549,1.26,2.809,2.808,2.809c1.549,0,2.809-1.26,2.809-2.809S16.229,12.621,14.68,12.621M14.68,2.512c1.136,0,2.06,0.923,2.06,2.06S15.815,6.63,14.68,6.63s-2.059-0.923-2.059-2.059S13.544,2.512,14.68,2.512M5.319,12.061c-1.136,0-2.06-0.924-2.06-2.06s0.923-2.059,2.06-2.059c1.135,0,2.06,0.923,2.06,2.059S6.454,12.061,5.319,12.061M14.68,17.488c-1.136,0-2.059-0.922-2.059-2.059s0.923-2.061,2.059-2.061s2.06,0.924,2.06,2.061S15.815,17.488,14.68,17.488"></path></svg>',
+action_favorite_icon: '<svg class="svg-icon" viewBox="0 0 20 20"><path d="M9.719,17.073l-6.562-6.51c-0.27-0.268-0.504-0.567-0.696-0.888C1.385,7.89,1.67,5.613,3.155,4.14c0.864-0.856,2.012-1.329,3.233-1.329c1.924,0,3.115,1.12,3.612,1.752c0.499-0.634,1.689-1.752,3.612-1.752c1.221,0,2.369,0.472,3.233,1.329c1.484,1.473,1.771,3.75,0.693,5.537c-0.19,0.32-0.425,0.618-0.695,0.887l-6.562,6.51C10.125,17.229,9.875,17.229,9.719,17.073 M6.388,3.61C5.379,3.61,4.431,4,3.717,4.707C2.495,5.92,2.259,7.794,3.145,9.265c0.158,0.265,0.351,0.51,0.574,0.731L10,16.228l6.281-6.232c0.224-0.221,0.416-0.466,0.573-0.729c0.887-1.472,0.651-3.346-0.571-4.56C15.57,4,14.621,3.61,13.612,3.61c-1.43,0-2.639,0.786-3.268,1.863c-0.154,0.264-0.536,0.264-0.69,0C9.029,4.397,7.82,3.61,6.388,3.61"></path></svg>',
+});
+});
+</script>
+
+<script>
+window.addEventListener("load", function(){
+	var load_screen = document.getElementById("load_screen");
+	document.body.removeChild(load_screen);
+});
+</script>
+
 </body>
 </html>
