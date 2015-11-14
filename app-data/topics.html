@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Debashis Barman</title>
+<meta name="description" content="Debashis Barman is a Freelance Web Designer. He specializes in Minimalist Web Design, Responsive Layout and Web Typography.
+">
+<meta name="keywords" content="Freelance Web Designer, Debashis Barman, Responsive Web Design, Minimal Web Design"/>
+
+<link rel="stylesheet" href="/css/kathamo.css"/>
+<link rel="stylesheet" href="/css/inbrief.css"/>
+<link rel="canonical" href="http://www.debashisbarman.in/topics.html">
+<link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+<script>
+window.onload = init;
+
+function init() {
+	//var button = document.getElementById("add_button");
+	//button.onclick = AddToSearch;
+	//var clearButton = document.getElementById("clear_button");
+	//clearButton.onclick = clearSearchItems;
+	var topicItemsArray = getTopicItems();
+	for (var i = 0; i < topicItemsArray.length; i++) {
+		var key = topicItemsArray[i];
+		var value = JSON.parse(localStorage[key]);
+		addTopicItemToDOM(key, value);
+	}	
+}
+
+function getTopicItems() {
+	var topicItemsArray = localStorage.getItem("topicItemsArray");
+	if (!topicItemsArray) {
+		topicItemsArray = [];
+		localStorage.setItem("topicItemsArray", JSON.stringify(topicItemsArray));
+	} else {
+		topicItemsArray = JSON.parse(topicItemsArray);
+	}
+	return topicItemsArray;
+}
+
+function addItem(key, value) {
+	var topicItemsArray = getTopicItems();
+	if(value!="")
+	{
+		
+		for (var i = 0; i < topicItemsArray.length; i++) {
+			var duplicateKey = topicItemsArray[i];
+			if (key == duplicateKey) {
+				Android.showToast("" + value + " is already added.");
+				exit(1);
+			}
+		}
+		var ItemObj = {"value": value};
+		localStorage.setItem(key, JSON.stringify(ItemObj));
+		topicItemsArray.push(key);
+		localStorage.setItem("topicItemsArray", JSON.stringify(topicItemsArray));
+		addTopicItemToDOM(key, ItemObj);
+		Android.showToast("" + value + " is added.");
+	}
+}
+
+function deleteTopicItem(e) {
+	var key = e.target.id;
+	if (e.target.tagName.toLowerCase() == "button") {
+		key = e.target.parentNode.id;
+	}
+	var topicItemsArray = getTopicItems();
+	if (topicItemsArray) {
+		for (var i = 0; i < topicItemsArray.length; i++) {
+			if (key == topicItemsArray[i]) {
+				topicItemsArray.splice(i,1);
+			}
+		}
+		Android.showToast("Topic deleted.");
+		localStorage.removeItem(key);
+		localStorage.setItem("topicItemsArray", JSON.stringify(topicItemsArray));
+		removeItemFromDOM(key);
+	}
+}
+
+function addTopicItemToDOM(key, ItemObj) {
+	var topicItems = document.getElementById("topics-following");
+	var Item = document.createElement("li");
+	Item.setAttribute("id", key);
+	var button = document.createElement("button");
+	button.setAttribute("data-role", "button");
+	button.innerHTML = ItemObj.value;
+	Item.appendChild(button);
+	topicItems.appendChild(Item);
+	Item.onclick = deleteTopicItem;
+}
+
+function removeItemFromDOM(key) {
+	var Item = document.getElementById(key);
+	Item.parentNode.removeChild(Item);
+}
+</script>
+
+<style>
+.__inbrief-topics ul {
+  padding-right: 0;
+  padding-left: 0; 
+}
+
+.__inbrief-topics li {
+  margin-right: 5px;
+  margin-left: 0;
+  padding-right: 13px;
+  padding-left: 0;
+  font-family: 'Kelvin Pro';
+}
+
+.__inbrief-topics li *[data-role="button"] {
+  min-width: 21px;
+  padding-right: 21px;
+  padding-left: 21px;
+  background-color: #fff;
+  border-color: #ccc;
+  -webkit-tap-highlight-color: rgba(0,0,0, 0.0);
+  outline: none;
+}
+</style>
+</head>
+
+<body>
+
+<main class="clearfix">
+<div class="container clearfix">
+<div class="col-lg-offset-3 col-lg-6 col-md-12 col-sm-12" style="margin-top:-8px">
+<div class="__inbrief-topics">
+<p><span class="subtitle" style="text-transform: uppercase">Featured Topics</span></p>
+<ul class="li-inline clearfix">
+<li><button data-role="button" onClick="addItem('topic_123', 'News')">News</button></li>
+<li><button data-role="button" onClick="addItem('topic_124', 'Entertainment')">Entertainment</button></li>
+<li><button data-role="button" onClick="addItem('topic_125', 'Politics')">Politics</button></li>
+<li><button data-role="button" onClick="addItem('topic_126', 'Sports')">Sports</button></li>
+<li><button data-role="button" onClick="addItem('topic_127', 'Business')">Business</button></li>
+<li><button data-role="button" onClick="addItem('topic_128', 'Lifestyle')">Lifestyle</button></li>
+<li><button data-role="button" onClick="addItem('topic_129', 'Design')">Design</button></li>
+<li><button data-role="button" onClick="addItem('topic_130', 'Technology')">Technology</button></li>
+<li><button data-role="button" onClick="addItem('topic_131', 'Science')">Science</button></li>
+<li><button data-role="button" onClick="addItem('topic_132', 'History')">History</button></li>
+</ul>
+<p><span class="subtitle" style="text-transform: uppercase">Topics You Follow</span></p>
+<ul class="li-inline clearfix" id="topics-following"></ul>
+</div>
+</div>
+</div>
+</main>
+
+</body>
+</html>

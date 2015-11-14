@@ -1,0 +1,132 @@
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Product Sans'), url("../font/Product-Sans.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Kelvin Pro';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kelvin Pro'), url("../font/KelvinProBold.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Charter ITC Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Charter ITC Pro'), url("../font/CharterITCPro.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans'), url("../font/OpenSans-Light.ttf") format("ttf");
+}
+
+* {
+  -webkit-user-select: none;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+}
+
+body {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Charter ITC Pro';
+  color: #333;
+  background-color: #eee;
+}
+
+a,
+a:active,
+a:hover {
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+  -webkit-tap-highlight-color: rgba(0,0,0, 0.0);
+  outline: none;
+}
+
+.vertical-center {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #eee;
+}
+
+.logo {
+  font-family: 'Kelvin Pro';
+  color: #727272;
+}
+
+.spacer {
+  width: 100%;
+  height: 3px;
+}
+
+.__inbrief ul {
+  margin: 0;
+  padding: 0;
+}
+
+.__inbrief ul > li {
+  padding-top: 2px;
+  padding-right: 21px;
+  padding-bottom: 2px;
+  padding-left: 21px;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #fff;
+  !border: 1px solid #ccc;
+}
+
+.__inbrief ul > li:first-child {
+  margin-top: 5px;
+}
+
+.__inbrief ul > li:last-child {
+  margin-bottom: 5px;
+}
+
+.__inbrief ul > li > .title {
+  margin-top: 13px;
+  margin-bottom: 0;
+  font-family: 'Kelvin Pro';
+  font-size: 1.618rem;
+  line-height: 1.5;
+  text-transform: capitalize;
+}
+
+.subtitle {
+  font-family: 'Kelvin Pro';
+  text-transform: capitalize;
+}
+
+.__inbrief ul > li > .content {
+  font-family: 'Charter ITC Pro';
+}
+
+.__inbrief ul > li > .tag {
+  display: inline-block;
+  width: auto;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  font-family: 'Open Sans';
+  font-size: 13px;
+  text-transform: capitalize;
+  border: 1px solid #eee;
+}
